@@ -1,4 +1,4 @@
-import {IsEmail, IsInt, IsString, Max, Min} from "class-validator";
+import {IsEmail, IsInt, IsJWT, IsString, Max, Min} from "class-validator";
 
 export class CreateDto {
     @IsInt()
@@ -6,9 +6,13 @@ export class CreateDto {
     @Max(2024)
     year: number;
 
+    // @IsString()
+    // @IsEmail()
+    // email: string;
+
     @IsString()
-    @IsEmail()
-    email: string;
+    @IsJWT()
+    token: string;
 
     // todo maybe build a pipe to validate this
     @IsString()

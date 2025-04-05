@@ -9,7 +9,7 @@ export class MonitorsController {
   @Post('create')
   async create(@Body() createDto: CreateDto) {
     console.log('triggered')
-    await this.monitorsService.signupForService(createDto);
+    return this.monitorsService.signupForService(createDto);
   }
 
 }

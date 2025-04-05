@@ -14,11 +14,20 @@ datasource db {
   //env("DATABASE_URL")
 }
 
+enum ServiceType {
+  FREE
+  BASIC
+  STANDARD
+  PREMIUM
+}
+
 model Monitors {
-  id     String @id @default(uuid())
+  id     String      @id @default(uuid())
   year   Int
   email  String
   duinit String
+  owner  String
+  type   ServiceType @default(FREE)
 
   created_at DateTime @default(now())
 }
