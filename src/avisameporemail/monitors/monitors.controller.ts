@@ -1,4 +1,4 @@
-import {Body, Controller, Post} from '@nestjs/common';
+import {Body, Controller, Get, Post} from '@nestjs/common';
 import { MonitorsService } from './monitors.service';
 import {CreateDto} from "./dto/create-dto/create-dto";
 
@@ -10,6 +10,11 @@ export class MonitorsController {
   async create(@Body() createDto: CreateDto) {
     console.log('triggered')
     return this.monitorsService.signupForService(createDto);
+  }
+
+  @Get('work')
+  getWork(){
+    return this.monitorsService.getImmediateWork();
   }
 
 }

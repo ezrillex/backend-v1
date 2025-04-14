@@ -1,5 +1,5 @@
 import {Injectable, InternalServerErrorException} from '@nestjs/common';
-import {PrismaService} from "../common/prisma/prisma.service";
+import {PrismaService} from "../../common/prisma/prisma.service";
 import {CreateDto} from "./dto/create-dto/create-dto";
 import {createClient} from '@supabase/supabase-js'
 
@@ -16,7 +16,7 @@ export class MonitorsService {
         const {data,error} = await supabase.auth.getUser(createDto.token)
 
         if(data.user){
-            await this.prisma.monitors.create({
+            await this.prisma.apm_Monitors.create({
                 data: {
                     duinit: createDto.duinit,
                     year: createDto.year,
@@ -33,5 +33,10 @@ export class MonitorsService {
         }
 
 
+    }
+
+    async getImmediateWork(){
+        return this.prisma.apm_Monitors.findMany({
+        })
     }
 }
