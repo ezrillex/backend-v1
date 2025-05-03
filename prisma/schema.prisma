@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,20 +8,53 @@ datasource db {
   //env("DATABASE_URL")
 }
 
-enum apm_ServiceType {
-  FREE
-  BASIC
-  STANDARD
+enum apm_MonitorPlan {
+  PRESALE
   PREMIUM
 }
 
 model apm_Monitors {
   id     String          @id @default(uuid())
   year   Int
-  email  String
   duinit String
-  owner  String
-  type   apm_ServiceType @default(FREE)
+  plan   apm_MonitorPlan @default(PRESALE)
 
-  created_at DateTime @default(now())
+  created_at DateTime   @default(now())
+  apm_Jobs   apm_Jobs[]
+}
+
+enum apm_JobStatus {
+  PENDIENTE
+  TRABAJANDO
+  SUCCESS
+  FAIL
+}
+
+model apm_Jobs {
+  id                 BigInt        @id @default(autoincrement())
+  monitor_id         String
+  monitor            apm_Monitors  @relation(fields: [monitor_id], references: [id])
+  status             apm_JobStatus
+  status_code        String
+  output_phase       Int?          @db.SmallInt // up to 8 # or null
+  output_description String?
+  output_error       String?
+  logs               apm_JobLogs[]
+}
+
+enum apm_JobLogsType {
+  HTML
+  IMAGE
+  ATTEMPT
+  NETWORK
+  OTHER
+}
+
+model apm_JobLogs {
+  id   String          @id @default(uuid())
+  type apm_JobLogsType
+  data String          @db.Text
+
+  job    apm_Jobs @relation(fields: [job_id], references: [id])
+  job_id BigInt
 }

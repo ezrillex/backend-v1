@@ -17,4 +17,15 @@ export class MonitorsController {
     return this.monitorsService.getImmediateWork();
   }
 
+  @Get('debug')
+  debug(){
+    const start = performance.now()
+    const now = new Date()
+    const block = (now.getHours() * 60) + now.getMinutes()
+    const slot = Math.floor(now.getSeconds() / 15) + 1
+    const end = performance.now()
+    console.log(`Time: ${now.toLocaleString()} Block: ${block}, slot: ${slot}, performance: ${end-start}ms`)
+    return 'done'
+  }
+
 }
